@@ -63,7 +63,7 @@ if (isset($_GET['pid'])){
     exit;
 }
 require_once $INDEX_DIR . 'src' . DIRECTORY_SEPARATOR . 'get_metadata.php';
-$xml_data = Metadata::getRecords($pid, $form_print);
+$xml_data = Metadata::getRecords($conn, $pid, $form_print);
 $xml_vals = Metadata::xml($xml_data);
 
 $file_name = 'meta.xml';
