@@ -26,13 +26,13 @@ class Metadata {
         return $output;
     }
 
-    public static function getRecords($pid, $form_list)
+    public static function getRecords($conn, $pid, $form_list)
     {
 	    if ($form_list == null){
 	        $form_query = "SELECT DISTINCT form_name FROM redcap_metadata WHERE project_id = ".$pid;
-	        $form_res = mysql_query($form_query);
+	        $form_res = mysqli_query($conn, $form_query);
 	        $form_list="";
-            while($row = mysql_fetch_assoc($form_res)){
+            while($row = mysqli_fetch_assoc($form_res)){
 	            $form_list.="'" .  $row['form_name'] . "'";
 	        }
 	    $form_list = str_replace("''", "','", $form_list);
@@ -47,9 +47,9 @@ class Metadata {
                         if(field_req='0','','Y') as required_field, custom_alignment, question_num as question_number
                   FROM redcap_metadata 
                   WHERE project_id = " . $pid . " AND field_name != concat(form_name, '_complete') AND form_name in ($form_list) ORDER BY field_order";
-	    $result = mysql_query($query);
+	    $result = mysqli_query($conn, $query);
         $records = array();
-	    while ($row = mysql_fetch_assoc($result)) {
+	    while ($row = mysqli_fetch_assoc($result)) {
             $records[] = $row;
         }
         return $records;
